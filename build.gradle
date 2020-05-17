@@ -2,11 +2,53 @@ plugins {
 	id 'org.springframework.boot' version '2.2.7.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'maven-publish'
+  id 'sign'
 }
 
 group = 'com.heanzy.zabala'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+
+java {
+	withJavadocJar()
+	withSourcesJar()
+}
+
+bootJar {
+	enabled = false
+}
+
+jar {
+	enabled = true
+}
+
+publishing {
+  publication {
+		mavenJava(MavenPublication) {
+      from components.java
+		}
+	}
+	repositories {
+    maven {
+			def snapshots = 'https://oss.sonatype.org/content/repositories/snapshots/'
+			def releases = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+			url = version.endsWith('SNAPSHOT') ? snapshots : releases
+			credentials {
+				username = ossrhUsername
+				password = ossrhPassword
+			}
+		}
+	}
+}
+
+signing {
+	sign publishing.publications.mavenJava
+}
+
+tasks.withType(GenerateModuleMetadata) {
+	enabled = false
+}
 
 configurations {
 	compileOnly {
