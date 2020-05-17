@@ -6,7 +6,7 @@ plugins {
   id 'sign'
 }
 
-group = 'com.heanzy.zabala'
+group = 'com.heanzyzabala'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
