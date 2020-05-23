@@ -1,7 +1,8 @@
 package com.heanzyzabala.idempotencykey;
 
-public interface IdempotencyKeyStore {
+public interface IdempotencyKeyStore<K, V> {
 
-    void save(String key, Object value);
-    boolean exists(String key);
+    void save(K key, V value);
+    V get(K key);
+    boolean exists(K key);
 }

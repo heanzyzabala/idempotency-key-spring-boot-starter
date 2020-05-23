@@ -3,7 +3,7 @@ package com.heanzyzabala.idempotencykey;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryIdempotencyKeyStore implements IdempotencyKeyStore {
+public class InMemoryIdempotencyKeyStore implements IdempotencyKeyStore<String, Object> {
 
     private Map<String, Object> map = new HashMap<>();
 
@@ -13,7 +13,12 @@ public class InMemoryIdempotencyKeyStore implements IdempotencyKeyStore {
     }
 
     @Override
+    public Object get(String key) {
+       return map.get(key);
+    }
+
+    @Override
     public boolean exists(String key) {
-        return map.containsKey(key);
+       return map.containsKey(key);
     }
 }

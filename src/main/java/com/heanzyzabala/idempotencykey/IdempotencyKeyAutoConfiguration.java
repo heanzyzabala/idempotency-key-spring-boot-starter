@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.AntPathMatcher;
 
 @Slf4j
 @Configuration
@@ -20,7 +21,8 @@ public class IdempotencyKeyAutoConfiguration {
     }
 
     @Bean
-    public IdempotencyKeyFilter idempotencyKeyFilter(IdempotencyKeyStore idempotencyKeyStore) {
-        return new IdempotencyKeyFilter(properties, matcher, idempotencyKeyStore);
+    public IdempotencyKeyFilter filter(IdempotencyKeyStore idempotencyKeyStore) {
+        log.info("Configured idempotency key: {} and required paths: {}", properties.getHeaderName(), properties.getRequiredPaths());
+        return new IdempotencyKeyFilter(properties, new AntPathMatcher(), idempotencyKeyStore);
     }
 }
