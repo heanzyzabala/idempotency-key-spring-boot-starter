@@ -9,7 +9,7 @@ public class MissingIdempotencyKeyException extends RuntimeException {
     private final String uri;
 
     public MissingIdempotencyKeyException(String headerName, String uri) {
-        super("Missing idempotency KEY: "+ headerName + " in path: " + uri);
+        super("Missing idempotency key: "+ headerName + " in path: " + uri);
         this.headerName = headerName;
         this.uri = uri;
     }
