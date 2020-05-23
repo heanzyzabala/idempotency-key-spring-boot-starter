@@ -24,7 +24,7 @@ jar {
 }
 
 publishing {
-  publication {
+  publications {
 		mavenJava(MavenPublication) {
       from components.java
 		}
