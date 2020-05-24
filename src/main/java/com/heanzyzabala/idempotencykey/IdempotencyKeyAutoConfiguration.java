@@ -21,7 +21,7 @@ public class IdempotencyKeyAutoConfiguration {
     }
 
     @Bean
-    public IdempotencyKeyFilter filter(IdempotencyKeyStore idempotencyKeyStore) {
+    public IdempotencyKeyFilter idempotencyKeyFilter(IdempotencyKeyStore idempotencyKeyStore) {
         log.info("Configured idempotency key: {} and required paths: {}", properties.getHeaderName(), properties.getRequiredPaths());
         return new IdempotencyKeyFilter(properties, new AntPathMatcher(), idempotencyKeyStore);
     }
