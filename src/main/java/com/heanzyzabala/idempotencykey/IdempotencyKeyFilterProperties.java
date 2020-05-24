@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@ConfigurationProperties
+@ConfigurationProperties(prefix = "idempotency-key")
 public class IdempotencyKeyFilterProperties {
 
     private String headerName = "X-Idempotency-Key";
