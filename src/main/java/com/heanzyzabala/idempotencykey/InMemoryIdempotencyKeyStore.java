@@ -3,7 +3,7 @@ package com.heanzyzabala.idempotencykey;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryIdempotencyKeyStore implements IdempotencyKeyStore<String, Object> {
+public class InMemoryIdempotencyKeyStore implements IdempotencyKeyStore {
 
     private Map<String, Object> map = new HashMap<>();
 
