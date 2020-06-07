@@ -32,3 +32,5 @@ out/
 .vscode/
 
 *.gpg
+
+gradle.properties
