@@ -29,9 +29,15 @@ public class IdempotencyKeyFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestIdHeader = request.getHeader(properties.getHeaderName());
         String uri = request.getRequestURI();
-        if(isRequired(uri) && requestIdHeader == null) {
+        if (isRequired(uri) && requestIdHeader == null) {
             log.error("Missing idempotency KEY: {} in path: {}", properties.getHeaderName(), uri);
             throw new MissingIdempotencyKeyException(properties.getHeaderName(), uri);
+        } else {
+            if (idempotencyKeyStore.exists(requestIdHeader)) {
+            } else {
+                idempotencyKeyStore.save(requestIdHeader, );
+                filterChain.doFilter(request, response);
+            }
         }
     }
 

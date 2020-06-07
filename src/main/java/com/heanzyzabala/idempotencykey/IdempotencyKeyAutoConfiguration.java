@@ -16,8 +16,8 @@ public class IdempotencyKeyAutoConfiguration {
     private IdempotencyKeyFilterProperties properties;
 
     @Bean
-    public InMemoryIdempotencyKeyStore inMemoryIdempotencyKeyStore() {
-        return new InMemoryIdempotencyKeyStore();
+    public ThreadLocalIdempotencyKeyStore threadLocalIdempotencyKeyStore() {
+        return new ThreadLocalIdempotencyKeyStore();
     }
 
     @Bean
