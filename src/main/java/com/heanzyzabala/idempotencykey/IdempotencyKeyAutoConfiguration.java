@@ -16,8 +16,8 @@ public class IdempotencyKeyAutoConfiguration {
     private IdempotencyKeyFilterProperties properties;
 
     @Bean
-    public ThreadLocalIdempotencyKeyStore threadLocalIdempotencyKeyStore() {
-        return new ThreadLocalIdempotencyKeyStore();
+    public ConcurrentHashMapKeyStore concurrentHashMapKeyStore() {
+        return new ConcurrentHashMapKeyStore();
     }
 
     @Bean
