@@ -5,15 +5,15 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ConcurrentHashMapKeyStore implements IdempotencyKeyStore {
 
-    private Map<String, Object> map = new ConcurrentHashMap<>();
+    private Map<String, Response> map = new ConcurrentHashMap<>();
 
     @Override
-    public void save(String key, Object value) {
+    public void save(String key, Response value) {
         map.put(key, value);
     }
 
     @Override
-    public Object get(String key) {
+    public Response get(String key) {
        return map.get(key);
     }
 
