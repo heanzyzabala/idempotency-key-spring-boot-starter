@@ -10,10 +10,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
-import java.util.AbstractMap;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -21,16 +18,13 @@ import java.util.stream.Collectors;
 public class IdempotencyKeyFilter extends OncePerRequestFilter {
 
     private IdempotencyKeyFilterProperties properties;
-    private ObjectMapper objectMapper;
     private PathMatcher matcher;
     private IdempotencyKeyStore idempotencyKeyStore;
 
     public IdempotencyKeyFilter(IdempotencyKeyFilterProperties properties,
-                                ObjectMapper objectMapper,
                                 PathMatcher matcher,
                                 IdempotencyKeyStore idempotencyKeyStore) {
         this.properties = properties;
-        this.objectMapper = objectMapper;
         this.matcher = matcher;
         this.idempotencyKeyStore = idempotencyKeyStore;
     }
@@ -42,7 +36,7 @@ public class IdempotencyKeyFilter extends OncePerRequestFilter {
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
         if (isRequired(uri)) {
             if (requestIdHeader == null) {
-                log.error("Missing idempotency KEY: {} in path: {}", properties.getHeaderName(), uri);
+                log.error("Missing idempotency key: {} in path: {}", properties.getHeaderName(), uri);
                 throw new MissingIdempotencyKeyException(properties.getHeaderName(), uri);
             }
             if (idempotencyKeyStore.exists(requestIdHeader)) {
