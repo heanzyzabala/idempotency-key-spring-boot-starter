@@ -1,6 +1,5 @@
 package com.heanzyzabala.idempotencykey;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -65,7 +64,6 @@ public class IdempotencyKeyFilter extends OncePerRequestFilter {
         r.setHeaders(headerMap);
         r.setContentType(response.getContentType());
         r.setContent(response.getContentAsByteArray());
-        System.out.println("saving content " + response.getContentAsByteArray().length);
         r.setContentLength(response.getContentSize());
         return r;
     }
