@@ -36,11 +36,9 @@ public class IdempotencyKeyFilter extends OncePerRequestFilter {
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
         if (isRequired(uri)) {
             if (requestIdHeader == null) {
-                log.error("Missing idempotency key: {} in path: {}", properties.getHeaderName(), uri);
                 throw new MissingIdempotencyKeyException(properties.getHeaderName(), uri);
             }
             if (idempotencyKeyStore.exists(requestIdHeader)) {
-                log.info("Key exists: {}", requestIdHeader);
                 Response r = idempotencyKeyStore.get(requestIdHeader);
                 response.setStatus(r.getStatus());
                 for (Map.Entry<String, String> e : r.getHeaders().entrySet()) {
@@ -50,11 +48,9 @@ public class IdempotencyKeyFilter extends OncePerRequestFilter {
                 response.getOutputStream().write(r.getContent());
                 response.setContentLength(r.getContentLength());
             } else {
-                log.info("Key does not exists: {}", requestIdHeader);
                 filterChain.doFilter(request, responseWrapper);
-                responseWrapper.copyBodyToResponse();
                 idempotencyKeyStore.save(requestIdHeader, toResponse(responseWrapper));
-                log.info("saving with status: {}", responseWrapper.getStatus());
+                responseWrapper.copyBodyToResponse();
             }
         } else {
             filterChain.doFilter(request, responseWrapper);
@@ -69,6 +65,7 @@ public class IdempotencyKeyFilter extends OncePerRequestFilter {
         r.setHeaders(headerMap);
         r.setContentType(response.getContentType());
         r.setContent(response.getContentAsByteArray());
+        System.out.println("saving content " + response.getContentAsByteArray().length);
         r.setContentLength(response.getContentSize());
         return r;
     }
